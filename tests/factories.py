@@ -1,3 +1,4 @@
+
 # Copyright 2016, 2022 John J. Rofrano. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +18,7 @@
 """
 Test Factory to make fake objects for testing
 """
+
 import factory
 from factory.fuzzy import FuzzyChoice, FuzzyDecimal
 from service.models import Product, Category
@@ -31,4 +33,16 @@ class ProductFactory(factory.Factory):
         model = Product
 
     id = factory.Sequence(lambda n: n)
-   ## Add code to create Fake Products 
+    name = factory.Faker("name")
+    description = factory.Faker("text")
+    price = FuzzyDecimal(0.5, 1000.0, precision=2)
+    available = FuzzyChoice(choices=[True, False])
+    category = FuzzyChoice(
+        choices=[
+            Category.CLOTHS,
+            Category.FOOD,
+            Category.HOUSEWARES,
+            Category.AUTOMOTIVE,
+            Category.TOOLS,
+        ]
+    )
